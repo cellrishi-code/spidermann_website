@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spider-Man | The Ultimate Knowledge Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Bangers&family=Racing+Sans+One&family=Archivo+Black&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --spidey-red: #E62429;
+            --spidey-blue: #2B3784;
+            --spidey-dark-blue: #1a1f4d;
+            --web-gray: #333;
+            --accent-yellow: #FFD700;
+        }
+
+        body {
+            font-family: 'Teko', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* ==================== CUSTOM CURSOR ==================== */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--spidey-red);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.15s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--spidey-red);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.8;
+            animation: fadeTrail 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeTrail {
+            to {
+                opacity: 0;
+                transform: scale(2);
+            }
+        }
+
+        .custom-cursor.hover {
+            transform: scale(2);
+            background: rgba(230, 36, 41, 0.2);
+        }
+
+        /* ==================== FLOATING SPIDERS ==================== */
+        .floating-spider {
+            position: fixed;
+            font-size: 24px;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatSpider 20s infinite ease-in-out;
+        }
+
+        @keyframes floatSpider {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(100px, -100px) rotate(90deg);
+            }
+            50% {
+                transform: translate(50px, -200px) rotate(180deg);
+            }
+            75% {
+                transform: translate(-50px, -100px) rotate(270deg);
+            }
+        }
+
+        /* ==================== SPIDER-SENSE PULSE ==================== */
+        .spider-sense-pulse {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(230, 36, 41, 0.3), transparent);
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0;
+            animation: sensePulse 0.5s ease-out;
+        }
+
+        @keyframes sensePulse {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* ==================== WEB PATTERN BACKGROUND ==================== */
+        .web-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(230, 36, 41, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(43, 55, 132, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .web-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(90deg, rgba(230, 36, 41, 0.02) 0px, transparent 1px, transparent 80px, rgba(230, 36, 41, 0.02) 81px),
+                repeating-linear-gradient(0deg, rgba(43, 55, 132, 0.02) 0px, transparent 1px, transparent 80px, rgba(43, 55, 132, 0.02) 81px);
+            pointer-events: none;
+            z-index: 1;
+            animation: webShift 20s linear infinite;
+        }
+
+        @keyframes webShift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(80px, 80px); }
+        }
+
+        /* ==================== CITY SKYLINE ==================== */
+        .city-skyline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, rgba(10, 10, 10, 0.9), transparent);
+            z-index: 3;
+        }
+
+        .city-skyline::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: 
+                linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.8) 10%, transparent 20%),
+                linear-gradient(to right, transparent 15%, rgba(0, 0, 0, 0.9) 25%, transparent 35%),
+                linear-gradient(to right, transparent 30%, rgba(0, 0, 0, 0.7) 40%, transparent 50%),
+                linear-gradient(to right, transparent 45%, rgba(0, 0, 0, 0.9) 55%, transparent 65%),
+                linear-gradient(to right, transparent 60%, rgba(0, 0, 0, 0.8) 70%, transparent 80%),
+                linear-gradient(to right, transparent 75%, rgba(0, 0, 0, 0.9) 85%, transparent 95%);
+            background-size: 100% 100%, 100% 150px, 100% 180px, 100% 120px, 100% 160px, 100% 140px;
+            background-position: bottom;
+            background-repeat: no-repeat;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--spidey-dark-blue) 0%, #000 50%, var(--spidey-red) 100%);
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            z-index: 10;
+            animation: heroFadeIn 2s ease-out;
+        }
+
+        @keyframes heroFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-title {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(3rem, 15vw, 12rem);
+            color: var(--spidey-red);
+            text-shadow: 
+                0 0 20px rgba(230, 36, 41, 0.8),
+                0 0 40px rgba(230, 36, 41, 0.5),
+                5px 5px 0 var(--spidey-blue),
+                10px 10px 0 rgba(43, 55, 132, 0.5);
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 20px rgba(230, 36, 41, 0.8), 
+                    0 0 40px rgba(230, 36, 41, 0.5), 
+                    5px 5px 0 var(--spidey-blue), 
+                    10px 10px 0 rgba(43, 55, 132, 0.5); 
+            }
+            50% { 
+                text-shadow: 
+                    0 0 30px rgba(230, 36, 41, 1), 
+                    0 0 60px rgba(230, 36, 41, 0.8), 
+                    5px 5px 0 var(--spidey-blue), 
+                    10px 10px 0 rgba(43, 55, 132, 0.5); 
+            }
+        }
+
+        .hero-tagline {
+            font-family: 'Racing Sans One', cursive;
+            font-size: clamp(1rem, 3vw, 2rem);
+            color: var(--accent-yellow);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+        }
+
+        /* ==================== 3D MODEL CONTAINER ==================== */
+        #spiderman-3d {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            z-index: 5;
+        }
+
+        #spiderman-3d canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Model Loading Indicator */
+        .model-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 6;
+        }
+
+        .model-loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(230, 36, 41, 0.3);
+            border-top: 4px solid var(--spidey-red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .model-loading-text {
+            color: var(--accent-yellow);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* ==================== NAVIGATION ==================== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid var(--spidey-red);
+            transition: all 0.3s;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            position: relative;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--spidey-red);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px var(--spidey-red);
+        }
+
+        .nav-links a:hover {
+            color: var(--spidey-red);
+            text-shadow: 0 0 10px var(--spidey-red);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        /* ==================== MUSIC CONTROL ==================== */
+        .music-control {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--spidey-red), #c41e23);
+            border: 3px solid var(--accent-yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(230, 36, 41, 0.5);
+            transition: all 0.3s;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(230, 36, 41, 0.8);
+        }
+
+        .music-control svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+
+        /* ==================== SECTIONS ==================== */
+        section {
+            position: relative;
+            padding: 6rem 2rem;
+            z-index: 2;
+            min-height: 50vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: var(--spidey-red);
+            text-align: center;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-shadow: 3px 3px 0 var(--spidey-blue);
+        }
+
+        /* ==================== ABOUT SECTION ==================== */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #ddd;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-image {
+            position: relative;
+            border: 4px solid var(--spidey-red);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(230, 36, 41, 0.3);
+            transform: rotate(-2deg);
+            transition: transform 0.3s;
+        }
+
+        .about-image:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ==================== COMICS SECTION ==================== */
+        .comics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .comic-card {
+            background: linear-gradient(135deg, rgba(230, 36, 41, 0.1), rgba(43, 55, 132, 0.1));
+            border: 2px solid var(--spidey-red);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transform-style: preserve-3d;
+        }
+
+        .comic-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+        }
+
+        .comic-card:hover::before {
+            left: 100%;
+        }
+
+        .comic-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 
+                0 20px 40px rgba(230, 36, 41, 0.4),
+                0 0 30px rgba(255, 215, 0, 0.3);
+            border-color: var(--accent-yellow);
+        }
+
+        .comic-cover {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .comic-card:hover .comic-cover {
+            transform: scale(1.05);
+        }
+
+        .comic-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        .comic-year {
+            color: var(--spidey-red);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .comic-description {
+            color: #ccc;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* ==================== COMIC MODAL ==================== */
+        .comic-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        .comic-modal.active {
+            display: flex;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .comic-modal-content {
+            background: linear-gradient(135deg, rgba(230, 36, 41, 0.2), rgba(43, 55, 132, 0.2));
+            border: 3px solid var(--spidey-red);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.4s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            background: var(--spidey-red);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-yellow);
+            color: #000;
+            transform: rotate(90deg);
+        }
+
+        .modal-comic-cover {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-comic-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 2.5rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .modal-comic-description {
+            font-size: 1.3rem;
+            color: #ddd;
+            line-height: 1.8;
+        }
+
+        /* ==================== MOVIES SECTION ==================== */
+        .movies-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--spidey-red), var(--spidey-blue));
+            transform: translateX(-50%);
+        }
+
+        .movie-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            position: relative;
+            align-items: center;
+        }
+
+        .movie-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .movie-content {
+            flex: 1;
+            background: rgba(230, 36, 41, 0.1);
+            border: 2px solid var(--spidey-blue);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .movie-content:hover {
+            background: rgba(43, 55, 132, 0.2);
+            border-color: var(--accent-yellow);
+            transform: scale(1.05);
+        }
+
+        .movie-poster {
+            flex: 1;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .movie-poster img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .movie-poster:hover img {
+            transform: scale(1.1);
+        }
+
+        .movie-year {
+            font-size: 2rem;
+            color: var(--accent-yellow);
+            font-weight: 700;
+        }
+
+        .movie-title {
+            font-size: 2.5rem;
+            color: var(--spidey-red);
+            margin: 1rem 0;
+            font-weight: 700;
+        }
+
+        .movie-description {
+            font-size: 1.2rem;
+            color: #ddd;
+            line-height: 1.6;
+        }
+
+        /* ==================== CHARACTERS SECTION ==================== */
+        .characters-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .character-category {
+            background: rgba(10, 10, 10, 0.8);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 3px solid var(--spidey-red);
+        }
+
+        .category-title {
+            font-family: 'Racing Sans One', cursive;
+            font-size: 2.5rem;
+            color: var(--accent-yellow);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .character-card {
+            background: linear-gradient(135deg, rgba(230, 36, 41, 0.2), rgba(43, 55, 132, 0.2));
+            border: 2px solid var(--spidey-blue);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .character-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent);
+            transform: translate(-50%, -50%);
+            transition: all 0.4s;
+            border-radius: 50%;
+        }
+
+        .character-card:hover::after {
+            width: 200%;
+            height: 200%;
+        }
+
+        .character-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: var(--accent-yellow);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .character-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ==================== INTERACTIVE SECTION ==================== */
+        .interactive-section {
+            background: linear-gradient(135deg, rgba(230, 36, 41, 0.1), rgba(43, 55, 132, 0.1));
+            border: 3px solid var(--spidey-red);
+            border-radius: 30px;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .web-shoot-btn {
+            font-family: 'Racing Sans One', cursive;
+            font-size: 2rem;
+            padding: 1.5rem 3rem;
+            background: linear-gradient(135deg, var(--spidey-red), #c41e23);
+            color: #fff;
+            border: 3px solid var(--accent-yellow);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            box-shadow: 0 10px 30px rgba(230, 36, 41, 0.5);
+            margin: 2rem 1rem;
+            display: inline-block;
+        }
+
+        .web-shoot-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(230, 36, 41, 0.8);
+            background: linear-gradient(135deg, #c41e23, var(--spidey-red));
+        }
+
+        .web-shoot-btn:active {
+            transform: scale(0.95);
+        }
+
+        .fact-display {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(10, 10, 10, 0.8);
+            border: 2px solid var(--spidey-blue);
+            border-radius: 20px;
+            font-size: 1.5rem;
+            color: var(--accent-yellow);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* ==================== WEB PARTICLE EFFECT ==================== */
+        .web-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .web-particle svg {
+            width: 100px;
+            height: 100px;
+            opacity: 0;
+            animation: webParticleAnim 2s ease-out forwards;
+        }
+
+        @keyframes webParticleAnim {
+            0% {
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(2) rotate(360deg);
+            }
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            background: rgba(10, 10, 10, 0.95);
+            border-top: 3px solid var(--spidey-red);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-content {
+            font-size: 1.2rem;
+            color: #888;
+        }
+
+        .footer-content strong {
+            color: var(--spidey-red);
+            font-size: 1.5rem;
+        }
+
+        /* ==================== LOADING SCREEN ==================== */
+        .spider-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s;
+        }
+
+        .spider-loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-spider {
+            width: 100px;
+            height: 100px;
+            border: 5px solid var(--spidey-blue);
+            border-top: 5px solid var(--spidey-red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .custom-cursor,
+            .cursor-trail {
+                display: none;
+            }
+
+            .about-content,
+            .characters-container {
+                grid-template-columns: 1fr;
+            }
+
+            .movie-item,
+            .movie-item:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .timeline-line {
+                left: 20px;
+            }
+
+            #spiderman-3d {
+                width: 300px;
+                height: 300px;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 1rem;
+                padding: 0.3rem 0.5rem;
+            }
+
+            .music-control {
+                width: 50px;
+                height: 50px;
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .music-control svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="spider-loader" id="loader">
+        <div class="loader-spider"></div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="customCursor"></div>
+
+    <!-- Background Elements -->
+    <div class="web-pattern"></div>
+    <div class="web-lines"></div>
+
+    <!-- Floating Spiders -->
+    <div class="floating-spider" style="top: 10%; left: 10%; animation-delay: 0s;">🕷️</div>
+    <div class="floating-spider" style="top: 20%; left: 80%; animation-delay: 3s;">🕸️</div>
+    <div class="floating-spider" style="top: 60%; left: 15%; animation-delay: 6s;">🕷️</div>
+    <div class="floating-spider" style="top: 70%; left: 85%; animation-delay: 9s;">🕸️</div>
+    <div class="floating-spider" style="top: 40%; left: 50%; animation-delay: 12s;">🕷️</div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="audio/spiderman-theme.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Control Button -->
+    <div class="music-control" id="musicToggle">
+        <svg id="playIcon" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg id="pauseIcon" viewBox="0 0 24 24" style="display: none;">
+            <path d="M6 4h4v16H6zM14 4h4v16h-4z"/>
+        </svg>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#comics">Comics</a></li>
+            <li><a href="#movies">Movies</a></li>
+            <li><a href="#characters">Characters</a></li>
+            <li><a href="#interactive">Interactive</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="city-skyline"></div>
+        
+        <!-- 3D Model Container -->
+        <div id="spiderman-3d">
+            <div class="model-loading" id="modelLoading">
+                <div class="model-loading-spinner"></div>
+                <div class="model-loading-text">Loading 3D Model...</div>
+            </div>
+        </div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">SPIDER-MAN</h1>
+            <p class="hero-tagline">The Ultimate Spider-Man Knowledge Hub</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Spider-Man</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Peter Parker, an ordinary high school student, was bitten by a radioactive spider during a science exhibition. This fateful event transformed him into Spider-Man, granting him incredible superhuman abilities.</p>
+                    <p><strong style="color: var(--spidey-red);">Powers & Abilities:</strong> Superhuman strength, agility, and reflexes. Wall-crawling ability. Spider-sense that alerts him to danger. Genius-level intellect in science and engineering.</p>
+                    <p><strong style="color: var(--spidey-blue);">Suit Technology:</strong> Web-shooters designed by Peter himself, capable of creating various types of webbing. Advanced suits incorporate AI assistance, enhanced durability, and specialized functions.</p>
+                    <p>Guided by the principle "With great power comes great responsibility," Spider-Man dedicates his life to protecting New York City from threats both street-level and cosmic.</p>
+                </div>
+                <div class="about-image">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='600'%3E%3Crect fill='%23E62429' width='500' height='600'/%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black'%3ESPIDER-MAN%3C/text%3E%3C/svg%3E" alt="Spider-Man">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comics Section -->
+    <section id="comics">
+        <div class="container">
+            <h2 class="section-title">Comics & References</h2>
+            <div class="comics-grid">
+                <div class="comic-card" data-comic="1">
+                    <img class="comic-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450'%3E%3Crect fill='%232B3784' width='300' height='450'/%3E%3Ctext x='50%25' y='40%25' font-size='40' fill='%23FFD700' text-anchor='middle' font-family='Arial Black'%3EAMAZING%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='50' fill='%23E62429' text-anchor='middle' font-family='Arial Black'%3ESPIDER-MAN%3C/text%3E%3Ctext x='50%25' y='70%25' font-size='60' fill='white' text-anchor='middle' font-family='Arial Black'%3E%231%3C/text%3E%3C/svg%3E" alt="Amazing Spider-Man #1">
+                    <h3 class="comic-title">Amazing Spider-Man #1</h3>
+                    <p class="comic-year">1963</p>
+                    <p class="comic-description">The first solo Spider-Man series begins!</p>
+                </div>
+                
+                <div class="comic-card" data-comic="2">
+                    <img class="comic-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450'%3E%3Crect fill='%23000' width='300' height='450'/%3E%3Ctext x='50%25' y='40%25' font-size='35' fill='%23FFD700' text-anchor='middle' font-family='Arial Black'%3ETHE BLACK%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='40' fill='white' text-anchor='middle' font-family='Arial Black'%3ESYMBIOTE%3C/text%3E%3Ctext x='50%25' y='70%25' font-size='50' fill='%23E62429' text-anchor='middle' font-family='Arial Black'%3ESAGA%3C/text%3E%3C/svg%3E" alt="Web of Spider-Man">
+                    <h3 class="comic-title">Web of Spider-Man #1</h3>
+                    <p class="comic-year">1985</p>
+                    <p class="comic-description">The iconic black suit saga begins.</p>
+                </div>
+                
+                <div class="comic-card" data-comic="3">
+                    <img class="comic-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450'%3E%3Crect fill='%23E62429' width='300' height='450'/%3E%3Ctext x='50%25' y='35%25' font-size='35' fill='white' text-anchor='middle' font-family='Arial Black'%3EULTIMATE%3C/text%3E%3Ctext x='50%25' y='50%25' font-size='50' fill='%232B3784' text-anchor='middle' font-family='Arial Black'%3ESPIDER-%3C/text%3E%3Ctext x='50%25' y='65%25' font-size='50' fill='%232B3784' text-anchor='middle' font-family='Arial Black'%3EMAN%3C/text%3E%3C/svg%3E" alt="Ultimate Spider-Man">
+                    <h3 class="comic-title">Ultimate Spider-Man</h3>
+                    <p class="comic-year">2000</p>
+                    <p class="comic-description">A modern retelling for a new generation.</p>
+                </div>
+                
+                <div class="comic-card" data-comic="4">
+                    <img class="comic-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450'%3E%3Crect fill='%23000' width='300' height='450'/%3E%3Crect fill='%23E62429' x='50' y='100' width='200' height='250'/%3E%3Ctext x='50%25' y='50%25' font-size='45' fill='white' text-anchor='middle' font-family='Arial Black'%3ESPIDER-%3C/text%3E%3Ctext x='50%25' y='60%25' font-size='45' fill='%23FFD700' text-anchor='middle' font-family='Arial Black'%3EVERSE%3C/text%3E%3C/svg%3E" alt="Spider-Verse">
+                    <h3 class="comic-title">Spider-Verse</h3>
+                    <p class="comic-year">2014</p>
+                    <p class="comic-description">Every Spider-Person across the multiverse unites!</p>
+                </div>
+                
+                <div class="comic-card" data-comic="5">
+                    <img class="comic-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450'%3E%3Crect fill='%232B3784' width='300' height='450'/%3E%3Ctext x='50%25' y='40%25' font-size='40' fill='%23E62429' text-anchor='middle' font-family='Arial Black'%3EMILES%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='40' fill='%23FFD700' text-anchor='middle' font-family='Arial Black'%3EMORALES%3C/text%3E%3Ctext x='50%25' y='70%25' font-size='35' fill='white' text-anchor='middle' font-family='Arial Black'%3ESPIDER-MAN%3C/text%3E%3C/svg%3E" alt="Miles Morales">
+                    <h3 class="comic-title">Miles Morales: Spider-Man</h3>
+                    <p class="comic-year">2018</p>
+                    <p class="comic-description">The next generation of Spider-Man.</p>
+                </div>
+                
+                <div class="comic-card" data-comic="6">
+                    <img class="comic-cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450'%3E%3Crect fill='%23E62429' width='300' height='450'/%3E%3Ctext x='50%25' y='35%25' font-size='35' fill='white' text-anchor='middle' font-family='Arial Black'%3EKRAVEN'S%3C/text%3E%3Ctext x='50%25' y='50%25' font-size='45' fill='%23FFD700' text-anchor='middle' font-family='Arial Black'%3ELAST%3C/text%3E%3Ctext x='50%25' y='65%25' font-size='45' fill='white' text-anchor='middle' font-family='Arial Black'%3EHUNT%3C/text%3E%3C/svg%3E" alt="Kraven's Last Hunt">
+                    <h3 class="comic-title">Kraven's Last Hunt</h3>
+                    <p class="comic-year">1987</p>
+                    <p class="comic-description">One of the darkest Spider-Man stories.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comic Modal -->
+    <div class="comic-modal" id="comicModal">
+        <div class="comic-modal-content">
+            <button class="modal-close" id="modalClose">×</button>
+            <img class="modal-comic-cover" id="modalCover" src="" alt="">
+            <h3 class="modal-comic-title" id="modalTitle"></h3>
+            <p class="modal-comic-description" id="modalDescription"></p>
+        </div>
+    </div>
+
+    <!-- Movies Section -->
+    <section id="movies">
+        <div class="container">
+            <h2 class="section-title">Movies & Appearances</h2>
+            <div class="movies-timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="movie-item">
+                    <div class="movie-content">
+                        <p class="movie-year">2002</p>
+                        <h3 class="movie-title">Spider-Man</h3>
+                        <p class="movie-description">Directed by Sam Raimi, starring Tobey Maguire. The origin story that started it all, introducing audiences to Peter Parker's transformation and his battle with the Green Goblin.</p>
+                    </div>
+                    <div class="movie-poster">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect fill='%23E62429' width='400' height='600'/%3E%3Ctext x='50%25' y='50%25' font-size='50' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black'%3ESPIDER-MAN%3C/text%3E%3Ctext x='50%25' y='60%25' font-size='30' fill='%23FFD700' text-anchor='middle' dominant-baseline='middle' font-family='Arial'%3E2002%3C/text%3E%3C/svg%3E" alt="Spider-Man 2002">
+                    </div>
+                </div>
+                
+                <div class="movie-item">
+                    <div class="movie-content">
+                        <p class="movie-year">2012</p>
+                        <h3 class="movie-title">The Amazing Spider-Man</h3>
+                        <p class="movie-description">Andrew Garfield dons the mask in Marc Webb's reimagining. A new take on the origin story with a focus on Peter's parents and the Lizard threat.</p>
+                    </div>
+                    <div class="movie-poster">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect fill='%232B3784' width='400' height='600'/%3E%3Ctext x='50%25' y='45%25' font-size='35' fill='%23FFD700' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black'%3ETHE AMAZING%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='45' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black'%3ESPIDER-MAN%3C/text%3E%3Ctext x='50%25' y='65%25' font-size='30' fill='%23E62429' text-anchor='middle' dominant-baseline='middle' font-family='Arial'%3E2012%3C/text%3E%3C/svg%3E" alt="Amazing Spider-Man">
+                    </div>
+                </div>
+                
+                <div class="movie-item">
+                    <div class="movie-content">
+                        <p class="movie-year">2017</p>
+                        <h3 class="movie-title">Spider-Man: Homecoming</h3>
+                        <p class="movie-description">Tom Holland debuts as Spider-Man in the MCU. A young Peter Parker balances high school life with being an Avenger, facing the Vulture.</p>
+                    </div>
+                    <div class="movie-poster">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect fill='%23E62429' width='400' height='600'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black'%3ESPIDER-MAN:%3C/text%3E%3Ctext x='50%25' y='58%25' font-size='40' fill='%23FFD700' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black'%3EHOMECOMING%3C/text%3E%3C/svg%3E" alt="Homecoming">
+                    </div>
+                </div>
+                
+                <div class="movie-item">
+                    <div class="movie-content">
+                        <p class="movie-year">2018</p>
+                        <h3 class="movie-title">Spider-Man: Into the Spider-Verse</h3>
+                        <p class="movie-description">Oscar-winning animated masterpiece introducing Miles Morales. Multiple Spider-People from different dimensions unite to save the multiverse.</p>
+                    </div>
+                    <div class="movie-poster">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23E62429;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%232B3784;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23grad)' width='400' height='600'/%3E%3Ctext x='50%25' y='50%25' font-size='35' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black'%3EINTO THE%3C/text%3E%3Ctext x='50%25' y='58%25' font-size='45' fill='%23FFD700' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black'%3ESPIDER-VERSE%3C/text%3E%3C/svg%3E" alt="Spider-Verse">
+                    </div>
+                </div>
+                
+                <div class="movie-item">
+                    <div class="movie-content">
+                        <p class="movie-year">2021</p>
+                        <h3 class="movie-title">Spider-Man: No Way Home</h3>
+                        <p class="movie-description">The multiverse breaks open! Three generations of Spider-Men unite in this epic conclusion to the Home trilogy, facing classic villains.</p>
+                    </div>
+                    <div class="movie-poster">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect fill='%23000' width='400' height='600'/%3E%3Ctext x='50%25' y='45%25' font-size='40' fill='%23E62429' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black'%3ENO WAY%3C/text%3E%3Ctext x='50%25' y='55%25' font-size='50' fill='%23FFD700' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black'%3EHOME%3C/text%3E%3C/svg%3E" alt="No Way Home">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Characters Section -->
+    <section id="characters">
+        <div class="container">
+            <h2 class="section-title">Villains & Allies</h2>
+            <div class="characters-container">
+                <div class="character-category">
+                    <h3 class="category-title">Iconic Villains</h3>
+                    <div class="character-grid">
+                        <div class="character-card"><p class="character-name">Green Goblin</p></div>
+                        <div class="character-card"><p class="character-name">Doctor Octopus</p></div>
+                        <div class="character-card"><p class="character-name">Venom</p></div>
+                        <div class="character-card"><p class="character-name">Sandman</p></div>
+                        <div class="character-card"><p class="character-name">Electro</p></div>
+                        <div class="character-card"><p class="character-name">The Lizard</p></div>
+                        <div class="character-card"><p class="character-name">Mysterio</p></div>
+                        <div class="character-card"><p class="character-name">Vulture</p></div>
+                        <div class="character-card"><p class="character-name">Kingpin</p></div>
+                        <div class="character-card"><p class="character-name">Carnage</p></div>
+                    </div>
+                </div>
+                <div class="character-category">
+                    <h3 class="category-title">Trusted Allies</h3>
+                    <div class="character-grid">
+                        <div class="character-card"><p class="character-name">Mary Jane</p></div>
+                        <div class="character-card"><p class="character-name">Gwen Stacy</p></div>
+                        <div class="character-card"><p class="character-name">Aunt May</p></div>
+                        <div class="character-card"><p class="character-name">J. Jonah Jameson</p></div>
+                        <div class="character-card"><p class="character-name">Miles Morales</p></div>
+                        <div class="character-card"><p class="character-name">Spider-Gwen</p></div>
+                        <div class="character-card"><p class="character-name">Iron Man</p></div>
+                        <div class="character-card"><p class="character-name">Black Cat</p></div>
+                        <div class="character-card"><p class="character-name">Ned Leeds</p></div>
+                        <div class="character-card"><p class="character-name">Happy Hogan</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Section -->
+    <section id="interactive">
+        <div class="container">
+            <h2 class="section-title">Interactive Fun</h2>
+            <div class="interactive-section">
+                <button class="web-shoot-btn" id="webShootBtn">🕸️ SHOOT WEB! 🕸️</button>
+                <button class="web-shoot-btn" id="factBtn">⚡ SPIDER-FACTS ⚡</button>
+                <div class="fact-display" id="factDisplay">
+                    Click "SPIDER-FACTS" to discover amazing Spider-Man trivia!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p><strong>Built as a Curiosity Project</strong></p>
+            <p>Celebrating the Amazing Spider-Man | With Great Power Comes Great Responsibility</p>
+            <p style="margin-top: 1rem; color: #555;">© 2026 Spider-Man Knowledge Hub | Fan-made tribute</p>
+        </div>
+    </footer>
+
+    <!-- CDN Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
+    <!-- Main JavaScript -->
+    <script>
+        // ==================== PAGE LOADING ====================
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                if (loader) {
+                    loader.classList.add('hidden');
+                }
+            }, 1500);
+        });
+
+        // ==================== CUSTOM CURSOR ====================
+        const cursor = document.getElementById('customCursor');
+        let lastTrailTime = 0;
+
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+
+                const currentTime = Date.now();
+                if (currentTime - lastTrailTime > 50) {
+                    createCursorTrail(e.clientX, e.clientY);
+                    lastTrailTime = currentTime;
+                }
+            });
+
+            const interactiveElements = document.querySelectorAll('a, button, .comic-card');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+
+        function createCursorTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = x + 'px';
+            trail.style.top = y + 'px';
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 800);
+        }
+
+        // ==================== 3D MODEL ====================
+        function init3DModel() {
+            const container = document.getElementById('spiderman-3d');
+            const loadingIndicator = document.getElementById('modelLoading');
+            
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
+            renderer.setSize(500, 500);
+            container.appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            scene.add(ambientLight);
+
+            const keyLight = new THREE.DirectionalLight(0xE62429, 0.8);
+            keyLight.position.set(5, 5, 5);
+            scene.add(keyLight);
+
+            const fillLight = new THREE.DirectionalLight(0x2B3784, 0.5);
+            fillLight.position.set(-5, 3, -5);
+            scene.add(fillLight);
+
+            const rimLight = new THREE.SpotLight(0xFFD700, 0.6);
+            rimLight.position.set(0, 10, -10);
+            scene.add(rimLight);
+
+            camera.position.z = 5;
+
+            // Create fallback model
+            const geometry = new THREE.SphereGeometry(1.5, 32, 32);
+            const material = new THREE.MeshPhongMaterial({ 
+                color: 0xE62429,
+                emissive: 0x2B3784,
+                shininess: 100
+            });
+            const sphere = new THREE.Mesh(geometry, material);
+            scene.add(sphere);
+
+            // Add spider ring
+            const ringGeometry = new THREE.TorusGeometry(1.2, 0.1, 16, 100);
+            const ringMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+            const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+            sphere.add(ring);
+
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
+
+            // Mouse tracking
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            // Animation
+            let targetRotationY = 0;
+            
+            function animate() {
+                requestAnimationFrame(animate);
+
+                targetRotationY += 0.003;
+                sphere.rotation.x += (mouseY * 0.3 - sphere.rotation.x) * 0.05;
+                sphere.rotation.y += (targetRotationY + mouseX * 0.3 - sphere.rotation.y) * 0.05;
+                sphere.position.y = Math.sin(Date.now() * 0.001) * 0.2;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                const size = Math.min(500, window.innerWidth * 0.9);
+                renderer.setSize(size, size);
+            });
+        }
+
+        init3DModel();
+
+        // ==================== BACKGROUND MUSIC ====================
+        const music = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        let musicPlaying = false;
+
+        if (music && musicToggle) {
+            music.volume = 0;
+
+            musicToggle.addEventListener('click', () => {
+                if (musicPlaying) {
+                    fadeAudio(music, music.volume, 0, 500, () => {
+                        music.pause();
+                        musicPlaying = false;
+                        playIcon.style.display = 'block';
+                        pauseIcon.style.display = 'none';
+                    });
+                } else {
+                    music.play();
+                    fadeAudio(music, 0, 0.3, 1000);
+                    musicPlaying = true;
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                }
+            });
+        }
+
+        function fadeAudio(audio, startVol, endVol, duration, callback) {
+            const steps = 20;
+            const stepTime = duration / steps;
+            const stepSize = (endVol - startVol) / steps;
+            let currentStep = 0;
+
+            const interval = setInterval(() => {
+                currentStep++;
+                audio.volume = Math.max(0, Math.min(1, startVol + (stepSize * currentStep)));
+
+                if (currentStep >= steps) {
+                    clearInterval(interval);
+                    if (callback) callback();
+                }
+            }, stepTime);
+        }
+
+        // ==================== PARALLAX SCROLL ====================
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroContent = document.querySelector('.hero-content');
+            const hero3D = document.getElementById('spiderman-3d');
+            
+            if (heroContent) {
+                heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
+                heroContent.style.opacity = Math.max(0, 1 - (scrolled / 800));
+            }
+
+            if (hero3D) {
+                hero3D.style.transform = `translate(-50%, -50%) translateY(${scrolled * 0.3}px)`;
+            }
+
+            // Spider-sense
+            const scrollDelta = Math.abs(scrolled - (window.lastScrollTop || 0));
+            if (scrollDelta > 100) {
+                const pulse = document.createElement('div');
+                pulse.className = 'spider-sense-pulse';
+                document.body.appendChild(pulse);
+                setTimeout(() => pulse.remove(), 500);
+            }
+            window.lastScrollTop = scrolled;
+        });
+
+        // ==================== COMIC MODAL ====================
+        const comicData = {
+            1: { title: "Amazing Spider-Man #1", year: "1963", description: "The first solo Spider-Man series begins! Peter Parker balances high school, relationships, and his secret identity as NYC's newest hero. This groundbreaking series introduced many of Spider-Man's most iconic villains." },
+            2: { title: "Web of Spider-Man #1", year: "1985", description: "The iconic black suit saga begins. Peter discovers his new costume has a mind of its own, leading to the creation of Venom. This storyline fundamentally changed Spider-Man forever." },
+            3: { title: "Ultimate Spider-Man", year: "2000", description: "A modern retelling of Spider-Man's origin for a new generation. Written by Brian Michael Bendis, this series reimagined Peter Parker for the 21st century." },
+            4: { title: "Spider-Verse", year: "2014", description: "Every Spider-Person from across the multiverse unites! Features Spider-Gwen, Spider-Ham, Spider-Man Noir, and countless others in an epic crossover event." },
+            5: { title: "Miles Morales: Spider-Man", year: "2018", description: "The next generation of Spider-Man. Miles Morales brings new powers and a fresh perspective to the Spider-Man legacy with his unique venom blast abilities." },
+            6: { title: "Kraven's Last Hunt", year: "1987", description: "One of the darkest Spider-Man stories ever told. Kraven the Hunter becomes obsessed with proving himself superior to Spider-Man in this psychological thriller." }
+        };
+
+        const comicCards = document.querySelectorAll('.comic-card');
+        const modal = document.getElementById('comicModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalCover = document.getElementById('modalCover');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+
+        comicCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const comicId = card.getAttribute('data-comic');
+                const comic = comicData[comicId];
+                
+                if (comic) {
+                    const coverImg = card.querySelector('.comic-cover');
+                    modalCover.src = coverImg.src;
+                    modalTitle.textContent = comic.title + ' (' + comic.year + ')';
+                    modalDescription.textContent = comic.description;
+                    modal.classList.add('active');
+                }
+            });
+        });
+
+        modalClose.addEventListener('click', () => modal.classList.remove('active'));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // ==================== WEB SHOOT ====================
+        document.getElementById('webShootBtn').addEventListener('click', (e) => {
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => createWebParticle(e.clientX, e.clientY), i * 80);
+            }
+        });
+
+        function createWebParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.className = 'web-particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            
+            particle.innerHTML = `
+                <svg viewBox="0 0 100 100">
+                    <path d="M50,10 L90,50 L50,90 L10,50 Z" fill="none" stroke="#E62429" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="15" fill="#FFD700" opacity="0.5"/>
+                </svg>
+            `;
+            
+            document.body.appendChild(particle);
+            
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 100 + Math.random() * 100;
+            
+            setTimeout(() => particle.remove(), 2000);
+        }
+
+        // ==================== SPIDER FACTS ====================
+        const spiderFacts = [
+            "Spider-Man's web-shooters were invented by Peter Parker himself when he was just a teenager!",
+            "Spider-Man can lift approximately 10 tons, making him one of Marvel's strongest heroes.",
+            "The iconic Spider-Man costume was designed by Steve Ditko in 1962.",
+            "Spider-Man's spider-sense can detect danger up to several seconds before it happens.",
+            "Miles Morales has unique powers including invisibility and venom strike that Peter Parker doesn't have.",
+            "Spider-Man was the first teenage superhero to be a solo star rather than a sidekick.",
+            "Peter Parker has an IQ estimated to be around 250, making him one of the smartest people in the Marvel Universe.",
+            "The character was created by Stan Lee and Steve Ditko and first appeared in Amazing Fantasy #15 (1962).",
+            "Spider-Man's web fluid dissolves after approximately one hour, leaving no permanent trace.",
+            "In the comics, Spider-Man has been part of the Avengers, Fantastic Four, and even the X-Men!"
+        ];
+
+        document.getElementById('factBtn').addEventListener('click', () => {
+            const randomFact = spiderFacts[Math.floor(Math.random() * spiderFacts.length)];
+            const factDisplay = document.getElementById('factDisplay');
+            
+            factDisplay.style.opacity = '0';
+            setTimeout(() => {
+                factDisplay.textContent = randomFact;
+                factDisplay.style.opacity = '1';
+                factDisplay.style.transition = 'opacity 0.5s';
+            }, 300);
+        });
+
+        // ==================== SMOOTH SCROLL ====================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ==================== NAVIGATION EFFECTS ====================
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                nav.style.background = 'rgba(10, 10, 10, 0.98)';
+                nav.style.boxShadow = '0 5px 20px rgba(230, 36, 41, 0.3)';
+            } else {
+                nav.style.background = 'rgba(10, 10, 10, 0.95)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        console.log('🕷️ Spider-Man Website Loaded Successfully!');
+    </script>
+</body>
+</html>
